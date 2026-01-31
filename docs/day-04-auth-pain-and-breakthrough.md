@@ -1,6 +1,6 @@
 # Day 4 – Auth Pain, JWTs, and Finally Winning
 
-I was mostly frustration, but it ended with a breakthrough.
+It was mostly frustration, but it ended with a breakthrough.
 
 ## What I Tried
 - Cleaned up the login flow.
@@ -29,3 +29,4 @@ After redeploying, the endpoint finally worked.
 - AWS forces you to understand what you’re doing.
 - Debugging cloud systems is about patience.
 - The first successful authenticated response feels like magic.
+
