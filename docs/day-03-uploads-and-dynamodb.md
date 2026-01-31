@@ -1,6 +1,6 @@
 # Day 3 – Uploads, S3, and DynamoDB Metadata
 
-Today I worked on the core of Family Cloud: storing videos and tracking them.
+I worked on the core of Family Cloud: storing videos and tracking them.
 
 ## What I Tried
 - Created an S3 bucket for video uploads.
@@ -28,3 +28,4 @@ Eventually, I saw real metadata appear in DynamoDB.
 - IAM is annoying but predictable once you understand it.
 - Logging inside Lambda is your best friend.
 - Seeing real data come back is incredibly motivating.
+
