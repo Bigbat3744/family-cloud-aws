@@ -1,0 +1,68 @@
+# Cognito Authentication Configuration - Complete Changes
+
+## Real Values Configured
+
+- COGNITO_DOMAIN: us-east-1cjfhgfmkc.auth.us-east-1.amazoncognito.com
+- CLIENT_ID: 3hvaqou47k64shd2qmra5211sb
+- REDIRECT_URI: https://d1k8502xw64gvv.cloudfront.net
+
+## Files Changed
+
+### 1. src/utils/auth.js
+
+**Line 5:**
+- OLD: const COGNITO_DOMAIN = import.meta.env.VITE_COGNITO_DOMAIN || 'your-domain.auth.region.amazoncognito.com'
+- NEW: const COGNITO_DOMAIN = import.meta.env.VITE_COGNITO_DOMAIN || 'us-east-1cjfhgfmkc.auth.us-east-1.amazoncognito.com'
+
+**Line 6:**
+- OLD: const CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID || 'your-client-id'
+- NEW: const CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID || '3hvaqou47k64shd2qmra5211sb'
+
+**Line 7:**
+- OLD: const REDIRECT_URI = window.location.origin + '/auth/callback'
+- NEW: const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI || 'https://d1k8502xw64gvv.cloudfront.net'
+
+**Added Lines 31-39:**
+- NEW: getCognitoLogoutUrl() function
+
+### 2. src/utils/api.js
+
+**Line 14:**
+- ADDED: import { getIdToken, getCognitoLoginUrl } from '../utils/auth'
+
+**Lines 57-65:**
+- OLD: Hardcoded placeholder values and localhost redirect
+- NEW: Uses getCognitoLoginUrl() from auth.js
+
+### 3. src/components/Navbar.jsx
+
+**Line 4:**
+- ADDED: import { getCognitoLogoutUrl } from '../utils/auth'
+
+**Lines 14-18:**
+- OLD: handleLogout() navigated to /login
+- NEW: handleLogout() redirects to Cognito logout URL
+
+### 4. src/pages/LandingPage.jsx
+
+**Lines 8, 16-17:**
+- ADDED: useLocation, useNavigate, parseTokensFromHash, saveTokens, useAuth imports
+
+**Lines 23-35:**
+- ADDED: Token handling for Cognito callback at root path
+
+## Generated URLs
+
+Login URL:
+https://us-east-1cjfhgfmkc.auth.us-east-1.amazoncognito.com/login?client_id=3hvaqou47k64shd2qmra5211sb&response_type=token&redirect_uri=https%3A%2F%2Fd1k8502xw64gvv.cloudfront.net
+
+Logout URL:
+https://us-east-1cjfhgfmkc.auth.us-east-1.amazoncognito.com/logout?client_id=3hvaqou47k64shd2qmra5211sb&logout_uri=https%3A%2F%2Fd1k8502xw64gvv.cloudfront.net
+
+## Verification Status
+
+✅ All placeholder values replaced
+✅ All localhost references removed
+✅ Login URL matches specification
+✅ Logout URL configured
+✅ Token handling for root path callback added

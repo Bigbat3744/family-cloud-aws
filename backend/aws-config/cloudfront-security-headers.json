@@ -1,0 +1,48 @@
+{
+  "Comment": "Security headers for Kẹbíjọ",
+  "Type": "response-headers-policy",
+  "ResponseHeadersPolicyConfig": {
+    "Name": "kebijo-security-headers",
+    "SecurityHeadersConfig": {
+      "StrictTransportSecurity": {
+        "Override": true,
+        "AccessControlMaxAgeSec": 31536000,
+        "IncludeSubdomains": true,
+        "Preload": true
+      },
+      "ContentTypeOptions": {
+        "Override": true
+      },
+      "FrameOptions": {
+        "Override": true,
+        "FrameOption": "DENY"
+      },
+      "ReferrerPolicy": {
+        "Override": true,
+        "ReferrerPolicy": "strict-origin-when-cross-origin"
+      },
+      "XSSProtection": {
+        "Override": true,
+        "ModeBlock": true,
+        "Protection": true,
+        "ReportUri": ""
+      }
+    },
+    "CorsConfig": {
+      "AccessControlAllowOrigins": {
+        "Quantity": 1,
+        "Items": ["*"]
+      },
+      "AccessControlAllowHeaders": {
+        "Quantity": 4,
+        "Items": ["Authorization", "Content-Type", "X-Amz-Date", "X-Amz-Security-Token"]
+      },
+      "AccessControlAllowMethods": {
+        "Quantity": 3,
+        "Items": ["GET", "HEAD", "OPTIONS"]
+      },
+      "AccessControlAllowCredentials": false,
+      "AccessControlMaxAgeSec": 86400
+    }
+  }
+}

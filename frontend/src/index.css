@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    @apply bg-gradient-to-br from-primary-600 via-primary-500 to-primary-700;
+  }
+  
+  .gradient-hero {
+    @apply bg-gradient-to-b from-primary-900 via-primary-800 to-black;
+  }
+  
+  .gradient-warm {
+    @apply bg-gradient-to-br from-warm-50 via-warm-100 to-warm-200;
+  }
+  
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 bg-clip-text text-transparent;
+  }
+  
+  .netflix-shadow {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .netflix-hover {
+    @apply transition-all duration-300 ease-out;
+    transform: scale(1.05);
+    z-index: 10;
+  }
+}
