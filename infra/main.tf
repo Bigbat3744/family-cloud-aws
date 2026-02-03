@@ -17,8 +17,32 @@ resource "aws_s3_bucket" "frontend_bucket" {
 # CloudFront Distribution
 # -------------------------------
 resource "aws_cloudfront_distribution" "frontend_cdn" {
-  # minimal config, we’ll expand later
+  enabled             = true
+  default_root_object = "index.html"
+
+  origin {
+    domain_name = "kebijo-frontend.s3.us-east-1.amazonaws.com"
+    origin_id   = "s3-frontend"
+  }
+
+  default_cache_behavior {
+    target_origin_id       = "s3-frontend"
+    viewer_protocol_policy = "redirect-to-https"
+
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
 }
+
 
 # -------------------------------
 # Cognito User Pool
@@ -41,12 +65,24 @@ resource "aws_apigatewayv2_api" "family_api" {
 # -------------------------------
 resource "aws_lambda_function" "upload" {
   function_name = "family-cloud-upload"
+  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
+  runtime       = "python3.12"
+  handler       = "app.lambda_handler"
+  filename      = "lambda_upload.zip"
 }
 
 resource "aws_lambda_function" "list" {
-  function_name = "family-cloud-list"
+  function_name = "family-cloud-list-videos"
+  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
+  runtime       = "python3.12"
+  handler       = "app.lambda_handler"
+  filename      = "lambda_upload.zip"
 }
 
-resource "aws_lambda_function" "lambda" {
-  function_name = "family-cloud-lambda"
+resource "aws_lambda_function" "playback" {
+  function_name = "family-cloud-playback"
+  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
+  runtime       = "python3.14"
+  handler       = "app.lambda_handler"
+  filename      = "lambda_upload.zip"
 }
