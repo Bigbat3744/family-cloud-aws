@@ -65,9 +65,9 @@ resource "aws_apigatewayv2_api" "family_api" {
 }
 
 
-# -------------------------------
-# Lambda Functions
-# -------------------------------
+############################################
+# Lambda: family-cloud-upload
+############################################
 resource "aws_lambda_function" "upload" {
   function_name = "family-cloud-upload"
   runtime       = "python3.12"
@@ -78,12 +78,13 @@ resource "aws_lambda_function" "upload" {
   timeout       = 3
   architectures = ["x86_64"]
 
-  # Required by Terraform for imported Lambdas
   filename = "lambda_upload.zip"
   publish  = false
 }
 
-
+############################################
+# Lambda: family-cloud-list-videos
+############################################
 resource "aws_lambda_function" "list" {
   function_name = "family-cloud-list-videos"
   runtime       = "python3.12"
@@ -94,24 +95,23 @@ resource "aws_lambda_function" "list" {
   timeout       = 3
   architectures = ["x86_64"]
 
-  # Required by Terraform for imported Lambdas
   filename = "lambda_upload.zip"
   publish  = false
 }
 
-
+############################################
+# Lambda: family-cloud-playback
+############################################
 resource "aws_lambda_function" "playback" {
   function_name = "family-cloud-playback"
   runtime       = "python3.14"
   handler       = "lambda_function.lambda_handler"
-  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
+  role          = "arn:aws:iam::832480578748:role/service-role/family-cloud-playback-role-zv2wv6pa"
 
   memory_size   = 128
   timeout       = 3
   architectures = ["x86_64"]
 
-  # Required by Terraform for imported Lambdas
   filename = "lambda_upload.zip"
   publish  = false
 }
-
