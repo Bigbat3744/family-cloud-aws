@@ -70,24 +70,48 @@ resource "aws_apigatewayv2_api" "family_api" {
 # -------------------------------
 resource "aws_lambda_function" "upload" {
   function_name = "family-cloud-upload"
-  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
   runtime       = "python3.12"
   handler       = "app.lambda_handler"
-  filename      = "lambda_upload.zip"
+  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
+
+  memory_size   = 128
+  timeout       = 3
+  architectures = ["x86_64"]
+
+  # Required by Terraform for imported Lambdas
+  filename = "lambda_upload.zip"
+  publish  = false
 }
+
 
 resource "aws_lambda_function" "list" {
   function_name = "family-cloud-list-videos"
-  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
   runtime       = "python3.12"
   handler       = "app.lambda_handler"
-  filename      = "lambda_upload.zip"
+  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
+
+  memory_size   = 128
+  timeout       = 3
+  architectures = ["x86_64"]
+
+  # Required by Terraform for imported Lambdas
+  filename = "lambda_upload.zip"
+  publish  = false
 }
+
 
 resource "aws_lambda_function" "playback" {
   function_name = "family-cloud-playback"
-  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
   runtime       = "python3.14"
-  handler       = "app.lambda_handler"
-  filename      = "lambda_upload.zip"
+  handler       = "lambda_function.lambda_handler"
+  role          = "arn:aws:iam::832480578748:role/family-cloud-lambda-role"
+
+  memory_size   = 128
+  timeout       = 3
+  architectures = ["x86_64"]
+
+  # Required by Terraform for imported Lambdas
+  filename = "lambda_upload.zip"
+  publish  = false
 }
+
