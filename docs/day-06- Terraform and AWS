@@ -1,0 +1,36 @@
+# Day 6 – Making Terraform and AWS Shake Hands
+
+Today was all about alignment — getting Terraform and AWS to agree on what actually exists. It felt less chaotic than yesterday, but still required patience and a lot of back‑and‑forth between the console and my `.tf` files.
+
+---
+
+### What I Tried
+- Matched my Lambda configuration with Terraform (runtime, handler, role, env vars)  
+- Cleaned up the CloudFront block to reflect the real distribution  
+- Started documenting every AWS setting so Terraform can mirror it  
+- Re‑ran `terraform plan` after each adjustment  
+
+---
+
+### What Went Wrong
+- Terraform kept trying to “fix” AWS because my code was still incomplete  
+- Missing fields caused Terraform to plan destructive changes  
+- Cognito needed a full configuration block, not just a name  
+- CloudFront’s modern policies didn’t match Terraform’s older required fields  
+
+---
+
+### How I Fixed It
+- Pulled exact values from AWS Console and added them to Terraform  
+- Used AWS’s Managed Cache Policy IDs instead of guessing  
+- Added the required Terraform fields even when AWS didn’t show them  
+- Repeated the cycle: update code → run plan → compare → adjust  
+- Slowly reduced the number of changes Terraform wanted to make  
+
+---
+
+### What I Learned
+- Terraform migration is a marathon, not a sprint  
+- The goal is to make Terraform say: **“No changes”**  
+- AWS Console and Terraform speak different dialects — you have to translate  
+- Once everything matches, CI/CD becomes effortless  
