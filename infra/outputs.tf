@@ -11,8 +11,9 @@ output "cognito_pool_id" {
 }
 
 output "api_gateway_id" {
-  value = aws_api_gateway_rest_api.family_api.id
+  value = aws_apigatewayv2_api.family_api.id
 }
+
 
 output "lambda_upload_name" {
   value = aws_lambda_function.upload.function_name
