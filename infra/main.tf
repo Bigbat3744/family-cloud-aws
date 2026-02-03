@@ -30,10 +30,11 @@ resource "aws_cognito_user_pool" "main_pool" {
 # -------------------------------
 # API Gateway
 # -------------------------------
-resource "aws_api_gateway_rest_api" "family_api" {
-  name        = var.api_name
-  description = "API Gateway for Family Cloud project"
+resource "aws_apigatewayv2_api" "family_api" {
+  name          = "family-api"
+  protocol_type = "HTTP"
 }
+
 
 # -------------------------------
 # Lambda Functions
