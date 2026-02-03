@@ -1,0 +1,39 @@
+# Day 5 – Terraform Reality Check and the Art of Not Breaking Everything
+
+Today was my first real deep dive into Terraform, and it humbled me quickly. Importing existing AWS resources sounded simple in theory… until Terraform started telling me it wanted to “update,” “replace,” or even “destroy” things I definitely didn’t want touched.
+
+---
+
+### What I Tried
+- Wrote Terraform skeletons for S3, CloudFront, Cognito, API Gateway, and my Lambda functions  
+- Imported each AWS resource into Terraform state  
+- Ran my first full `terraform plan` on the project  
+- Tried to understand how Terraform sees my existing infrastructure  
+
+---
+
+### What Went Wrong
+- Terraform complained about missing required fields  
+- CloudFront needed way more configuration than I expected  
+- Lambda imports worked, but my Terraform code didn’t match AWS  
+- Terraform tried to “fix” AWS by updating or recreating resources  
+- Cognito almost got replaced because my code was incomplete  
+- I learned that Terraform is strict even when AWS is flexible  
+
+---
+
+### How I Fixed It
+- Slowed down and checked each AWS resource manually  
+- Compared AWS Console settings with Terraform’s required fields  
+- Added the missing CloudFront blocks (origin, cache behavior, certificate, etc.)  
+- Learned how to read Terraform’s plan output properly  
+- Realised I must fully mirror AWS before importing  
+- Decided not to apply anything until the code matches AWS exactly  
+
+---
+
+### What I Learned
+- Terraform is powerful, but it demands precision  
+- Importing existing infrastructure is a careful, step‑by‑step process  
+- Terraform will happily destroy your resources if your code is wrong  
+- The safest path is: **import → inspect → adjust code → plan → repeat**  
