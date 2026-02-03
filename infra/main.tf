@@ -60,7 +60,7 @@ resource "aws_cognito_user_pool" "main_pool" {
 # API Gateway
 # -------------------------------
 resource "aws_apigatewayv2_api" "family_api" {
-  name          = "family-api"
+  name          = "family-cloud-api"
   protocol_type = "HTTP"
 }
 
