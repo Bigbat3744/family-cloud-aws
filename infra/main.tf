@@ -43,7 +43,6 @@ resource "aws_cloudfront_distribution" "frontend_cdn" {
 
     connection_attempts         = 3
     connection_timeout          = 10
-    response_timeout            = 0
   }
 
   default_cache_behavior {
@@ -80,6 +79,16 @@ resource "aws_cloudfront_distribution" "frontend_cdn" {
     response_page_path    = "/index.html"
     error_caching_min_ttl = 10
   }
+
+  restrictions {
+  geo_restriction {
+    restriction_type = "none"
+  }
+}
+
+viewer_certificate {
+  cloudfront_default_certificate = true
+}
 
   # keep your existing viewer_certificate, restrictions, etc.
 }
