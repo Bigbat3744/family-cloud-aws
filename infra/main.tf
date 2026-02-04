@@ -18,35 +18,72 @@ resource "aws_s3_bucket" "frontend_bucket" {
 # -------------------------------
 resource "aws_cloudfront_distribution" "frontend_cdn" {
   enabled             = true
+  is_ipv6_enabled     = true
+  comment             = "KEBIJO frontend distribution"
   default_root_object = "index.html"
 
+  web_acl_id = "arn:aws:wafv2:us-east-1:832480578748:global/webacl/CreatedByCloudFront-e2f64c6f/a962fd3f-a24e-493a-8377-c5619826878b"
+
+  tags = {
+    Name = "kebijo"
+  }
+
   origin {
-    domain_name = "kebijo-frontend.s3.us-east-1.amazonaws.com"
-    origin_id   = "s3-frontend"
+    domain_name = "kebijo-frontend.s3-website-us-east-1.amazonaws.com"
+    origin_id   = "kebijo-frontend.s3.us-east-1.amazonaws.com-ml2sn5mu7y8"
+
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "http-only"
+      origin_read_timeout      = 30
+      origin_keepalive_timeout = 5
+      origin_ssl_protocols     = ["SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2"]
+    }
+
+    connection_attempts         = 3
+    connection_timeout          = 10
+    response_timeout            = 0
   }
 
   default_cache_behavior {
-    target_origin_id       = "s3-frontend"
+    target_origin_id       = "kebijo-frontend.s3.us-east-1.amazonaws.com-ml2sn5mu7y8"
     viewer_protocol_policy = "redirect-to-https"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
 
-    # Required by Terraform even when using cache policies
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
+    compress = true
 
-    # This matches your AWS Console: Managed-CachingOptimized
-    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-  }
+    forwarded_values {
+      query_string = false
 
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
+      cookies {
+        forward = "none"
+      }
     }
+
+    min_ttl     = 0
+    default_ttl = 3600
+    max_ttl     = 86400
   }
 
-  viewer_certificate {
-    cloudfront_default_certificate = true
+  custom_error_response {
+    error_code            = 403
+    response_code         = 403
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 10
   }
+
+  custom_error_response {
+    error_code            = 404
+    response_code         = 404
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 10
+  }
+
+  # keep your existing viewer_certificate, restrictions, etc.
 }
+
 
 
 # -------------------------------
